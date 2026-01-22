@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEON PLAY – Games</title>
+
+<style>
+:root{
+  --neon1:#00fff0;
+  --neon2:#7f00ff;
+  --bg:#05060d;
+  --text:#e8e8e8;
+  --muted:#aaa;
+}
+
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#111428,var(--bg));
+  color:var(--text);
+}
+
+/* ===== HEADER ===== */
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:20px 80px;
+  background:rgba(5,6,13,.85);
+  backdrop-filter:blur(10px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1000;
+}
+
+header h1{
+  color:var(--neon1);
+  letter-spacing:2px;
+}
+
+/* ===== NAVBAR NEON LINE ===== */
+nav a{
+  margin-left:30px;
+  color:var(--text);
+  font-weight:700;
+  text-decoration:none;
+  position:relative;
+  padding-bottom:4px;
+}
+
+/* garis neon hanya muncul saat hover */
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0; /* mulai dari 0 */
+  height:3px;
+  background:linear-gradient(90deg, var(--neon1), var(--neon2));
+  box-shadow:
+    0 0 8px var(--neon1),
+    0 0 12px var(--neon2),
+    0 0 20px var(--neon2);
+  border-radius:2px;
+  transition:width 0.3s ease;
+}
+
+/* saat hover, garis melebar penuh */
+nav a:hover::after{
+  width:100%;
+}
+
+
+/* ===== MAIN ===== */
+main{
+  padding:160px 80px 80px;
+}
+
+/* ===== SEARCH ===== */
+.search-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:25px;
+}
+
+#_Z{
+  width:100%;
+  max-width:420px;
+  padding:14px 24px;
+  border-radius:40px;
+  border:1px solid rgba(0,255,240,.3);
+  background:rgba(5,6,13,.85);
+  color:var(--text);
+  font-size:15px;
+  outline:none;
+}
+
+#_Z:focus{
+  border-color:var(--neon1);
+  box-shadow:0 0 30px rgba(0,255,240,.6);
+}
+
+/* ===== A-Z MENU ===== */
+.az-menu{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:40px;
+}
+
+.az-menu button{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid rgba(0,255,240,.3);
+  background:rgba(5,6,13,.8);
+  color:var(--text);
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.az-menu button.active{
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:#000;
+  box-shadow:0 0 20px rgba(0,255,240,.6);
+}
+
+/* ===== TITLE ===== */
+.neon{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:30px;
+  color:#00ffff;
+  text-shadow:
+    0 0 10px #00ffff,
+    0 0 40px #cc3cb9;
+}
+
+/* ===== GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); /* FIX auto-fit → auto-fill */
+  gap:22px;
+  justify-items:start;
+}
+
+/* ===== CARD ===== */
+.card{
+  position:relative;
+  height:360px;
+  width:100%;
+  max-width:360px;
+  border-radius:26px;
+  overflow:hidden;
+  background:rgba(14,16,32,.75);
+  border:1px solid rgba(0,255,240,.15);
+  transition:.45s;
+}
+
+.card:hover{
+  transform:translateY(-12px) scale(1.03);
+}
+
+.card.pc{--a1:#00fff0;--a2:#00aaff}
+.card.playstation{--a1:#ff2cdf;--a2:#8a2cff}
+.card.switch{--a1:#ff3b3b;--a2:#ffb347}
+
+.badge{
+  position:absolute;
+  top:18px;
+  left:18px;
+  padding:6px 14px;
+  border-radius:20px;
+  background:linear-gradient(90deg,var(--a1),var(--a2));
+  color:#000;
+  font-size:12px;
+  font-weight:800;
+  z-index:5;
+}
+
+.thumb{
+  position:absolute;
+  inset:0;
+}
+
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+
+.content{
+  position:absolute;
+  inset:0;
+  padding:32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:linear-gradient(to top,rgba(5,6,10,.95),rgba(5,6,10,.7));
+  opacity:0;
+  transition:.6s;
+}
+
+.card:hover .thumb img{
+  opacity:.25;
+  transform:scale(1.05);
+}
+
+.card:hover .content{opacity:1}
+
+.card h4{
+  font-size:22px;
+  margin-bottom:12px;
+}
+
+.card p{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:24px;
+}
+
+.card a{
+  align-self:flex-start;
+  padding:10px 26px;
+  border-radius:40px;
+  background:linear-gradient(90deg,var(--a1),var(--a2));
+  color:#000;
+  font-weight:700;
+  text-decoration:none;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>NEON PLAY-Playstation</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="PC.html">PC</a>
+    <a href="Playstation.html">Playstation</a>
+    <a href="Retro.html">Retro</a>
+  </nav>
+</header>
+
+<main>
+
+  <div class="search-wrap">
+    <input id="_Z" type="text" placeholder="Search games...">
+  </div>
+
+  <div class="az-menu" id="-Z">
+    <button class="active" data-letter="all">ALL</button>
+    <button data-letter="a">A</button><button data-letter="b">B</button>
+    <button data-letter="c">C</button><button data-letter="d">D</button>
+    <button data-letter="e">E</button><button data-letter="f">F</button>
+    <button data-letter="g">G</button><button data-letter="h">H</button>
+    <button data-letter="i">I</button><button data-letter="j">J</button>
+    <button data-letter="k">K</button><button data-letter="l">L</button>
+    <button data-letter="m">M</button><button data-letter="n">N</button>
+    <button data-letter="o">O</button><button data-letter="p">P</button>
+    <button data-letter="q">Q</button><button data-letter="r">R</button>
+    <button data-letter="s">S</button><button data-letter="t">T</button>
+    <button data-letter="u">U</button><button data-letter="v">V</button>
+    <button data-letter="w">W</button><button data-letter="x">X</button>
+    <button data-letter="y">Y</button><button data-letter="z">Z</button>
+  </div>
+
+  <div class="neon">FEATURED GAMES</div>
+
+  <div class="grid">
+
+    <div class="card switch">
+      <span class="badge">SWITCH</span>
+      <div class="thumb"><img src="ghost-recon-wildlands.jpg"></div>
+      <div class="content">
+        <h4>Ghost Recon Wildlands</h4>
+        <p>Open-world tactical shooter.</p>
+        <a href="#">View Game</a>
+      </div>
+    </div>
+
+    <div class="card playstation">
+      <span class="badge">PS</span>
+      <div class="thumb"><img src="cyberpunk-2077.jpg"></div>
+      <div class="content">
+        <h4>Cyberpunk 2077</h4>
+        <p>RPG futuristik Night City.</p>
+        <a href="#">View Game</a>
+      </div>
+    </div>
+
+    <div class="card pc">
+      <span class="badge">PC</span>
+      <div class="thumb"><img src="rdr2.jpg"></div>
+      <div class="content">
+        <h4>Red Dead Redemption 2</h4>
+        <p>Open-world western epik.</p>
+        <a href="#">View Game</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>© 2026 NEON PLAY</footer>
+
+<script>
+const searchInput = document.getElementById('_Z');
+const cards = document.querySelectorAll('.card');
+const azButtons = document.querySelectorAll('.az-menu button');
+let activeLetter = "all";
+
+function filterGames(){
+  const key = searchInput.value.toLowerCase();
+  cards.forEach(card=>{
+    const title = card.querySelector('h4').innerText.toLowerCase();
+    const matchSearch = title.includes(key);
+    const matchAZ = activeLetter === "all" || title.startsWith(activeLetter);
+    card.style.display = (matchSearch && matchAZ) ? "" : "none";
+  });
+}
+
+searchInput.addEventListener('keyup', filterGames);
+
+azButtons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    azButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeLetter = btn.dataset.letter;
+    filterGames();
+  });
+});
+</script>
+
+</body>
+</html>

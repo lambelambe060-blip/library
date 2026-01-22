@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>87Games</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<header>
+  <h1>87Games</h1>
+ <nav class="nav-center">
+    <a href="index.html">Home</a>
+    <a href="pc.html">PC</a>
+    <a href="playstation.html">Playstation</a>
+    <a href="retro.html">Retro</a>
+  </nav>
+  <!-- Search Container -->
+<div class="search-container">
+  <button id="search-toggle">🔍</button>
+  <input type="text" id="search-input" placeholder="Search games..." autocomplete="off"/>
+  <div id="search-suggestions" class="suggestions"></div>
+</div>
+</header>
+ <!-- Search end -->
+ <main>
+<!-- update game -->
+<section class="hero-slider">
+  <div class="slides">
+
+    <!-- Slide 1 -->
+    <div class="slide slide-1 active">
+      <div class="overlay">
+        <h2>battlefield<span>6</span></h2>
+        <p>RPG futuristik dengan dunia cyberpunk yang imersif.</p>
+        <a href="#" class="hero-btn">VIEW</a>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide slide-2">
+      <div class="overlay">
+        <h2>Ghost Recon<span>Wildlands</span></h2>
+        <p>RPG futuristik dengan dunia cyberpunk yang imersif.</p>
+        <a href="#" class="hero-btn">VIEW</a>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide slide-3">
+      <div class="overlay">
+        <h2>Battlefield<span>V</span></h2>
+        <p>Battlefield V adalah bagian keenam belas dalam seri Battlefield</p>
+        <a href="battlefield-V.html" class="hero-btn">VIEW</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- controls -->
+  <button class="nav prev">‹</button>
+  <button class="nav next">›</button>
+
+  <!-- dots -->
+  <div class="dots"></div>
+</section>
+<!-- update game end-->
+<h3 class="card-title neon">POPULAR GAMES</h3>
+<!-- CARD -->
+<div class="grid">
+   
+
+<div class="card full switch pc">
+  <span class="badge">PC</span>
+  <div class="thumb">
+    <img src="Battlefield-V.avif">
+  </div>
+  <div class="content">
+    <h4>Battlefield V</h4>
+    <p>Battlefield V merupakan video game bergenre tembak-menembak orang-pertama yang dikembangkan oleh DICE dan diterbitkan oleh Electronic Arts. Battlefield V ialah bagian keenam belas dalam seri Battlefield. Ini dirilis di seluruh dunia untuk Microsoft Windows</p>
+    <a href="battlefield-V.html?type=pc&search=battlefield V">View Game</a>
+  </div>
+</div>
+
+
+<div class="card full switch pc">
+  <span class="badge">PC</span>
+  <div class="thumb">
+    <img src="ghost-recon-wildlands.jpg">
+  </div>
+  <div class="content">
+    <h4>ghost Recon Wildlands</h4>
+    <p>Tahun 2019. empat agen pemerintah yang dikenal sebagai Hantu ditugaskan untuk secara sistematis mengekstraksi, menyabotase, dan melenyapkan kartel narkoba Bolivia, Santa Blanca, setelah Agen CIA Ricky Sandoval diduga dibunuh oleh pemimpin kartel, El Sueno.</p>
+    <a href="ghost-recon-wildlands.html?type=pc&search=battlefield V">View Game</a>
+  </div>
+</div>
+
+<!-- CARD END-->
+</main>
+<script>
+  const searchToggle = document.getElementById('search-toggle');
+  const searchInput  = document.getElementById('search-input');
+
+  searchToggle.addEventListener('click', () => {
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    } else {
+      searchInput.value = '';
+    }
+  });
+
+  /* klik di luar → close */
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+</script>
+<script>
+  // DATA GAME UNTUK SEARCH
+  const games = [
+    { name: "Ghost Recon Wildlands", link: "ghost-recon-wildlands.html" },
+    { name: "Battlefield 5", link: "battlefield-V.html" },
+    { name: "Battlefield 6", link: "battlefield-6.html" },
+    { name: "Retro Classic", link: "Retro Classic.html" }
+  ];
+
+  const searchSuggestions = document.getElementById('search-suggestions');
+
+  // Fungsi untuk update suggestion
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    searchSuggestions.innerHTML = ''; // clear sebelumnya
+    if(query) {
+      const filtered = games.filter(g => g.name.toLowerCase().includes(query));
+      filtered.forEach(game => {
+        const div = document.createElement('div');
+        div.classList.add('suggestion-item');
+        div.textContent = game.name;
+        div.addEventListener('click', () => {
+          window.location.href = game.link; // buka halaman game
+        });
+        searchSuggestions.appendChild(div);
+      });
+      searchSuggestions.style.display = filtered.length ? 'block' : 'none';
+    } else {
+      searchSuggestions.style.display = 'none';
+    }
+  });
+
+  // klik di luar suggestion → hide
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.search-container')) {
+      searchSuggestions.style.display = 'none';
+    }
+  });
+</script>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const prev = document.querySelector('.prev');
+  const next = document.querySelector('.next');
+  const dotsContainer = document.querySelector('.dots');
+  let index = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.addEventListener('click', () => showSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dots span');
+
+  function showSlide(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    slides[i].classList.add('active');
+    dots[i].classList.add('active');
+    index = i;
+  }
+
+  function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }
+
+  prev.onclick = () => {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+  };
+
+  next.onclick = nextSlide;
+
+  showSlide(0);
+  setInterval(nextSlide, 6000);
+</script>
+
+
+<footer>
+  <p>© 2026 NEON PLAY — Cyber Gaming Platform</p>
+</footer>
+
+</body>
+</html>
